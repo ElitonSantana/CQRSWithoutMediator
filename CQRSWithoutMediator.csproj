@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CQRSWithoutMediator.Domain\CQRSWithoutMediator.Domain.csproj" />
-    <ProjectReference Include="..\CQRSWithoutMediator.Infra\CQRSWithoutMediator.Infra.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 using CQRSWithoutMediator;
-using CQRSWithoutMediator.Domain.Handlers;
-using CQRSWithoutMediator.Domain.Handlers.Interfaces;
+using CQRSWithoutMediator.Infra.Settings;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 ServiceCollectionExtension.ConfigureServices(builder.Services);
 ServiceCollectionExtension.ConfigureRepositorys(builder.Services);
 ServiceCollectionExtension.ConfigureHandlers(builder.Services);
+
+//MongoDD Settings Configure
+builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection("MongoSettings"));
+builder.Services.AddSingleton<IMongoSettings>(serviceProvider =>
+        serviceProvider.GetRequiredService<IOptions<MongoSettings>>().Value);
+
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

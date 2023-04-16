@@ -1,7 +1,5 @@
-﻿using CQRSWithoutMediator.Domain.Commands.Requests;
-using CQRSWithoutMediator.Domain.Entities;
-using CQRSWithoutMediator.Domain.Handlers.Interfaces;
-using CQRSWithoutMediator.Infra.Interfaces;
+﻿using CQRSWithoutMediator.Domain.Services.Interfaces;
+using CQRSWithoutMediator.Infra.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CQRSWithoutMediator.Controllers
@@ -11,35 +9,23 @@ namespace CQRSWithoutMediator.Controllers
     public class ProductsController : ControllerBase
     {
 
-        private readonly IProductRepository _productRepository;
+        private readonly IProductService _productService;
 
-        public ProductsController(IProductRepository productRepository)
+        public ProductsController(IProductService productService)
         {
-            _productRepository = productRepository;
+            _productService = productService;
         }
 
         [HttpPost]
         [Route("Create")]
-        public IActionResult CreateProduct(
-            [FromServices] ICreateProductHandler handler,
-            [FromBody] CreateProductRequestCommand command
-            )
+        public IActionResult CreateProduct([FromBody] Product product)
         {
+            var result = _productService.CreateAsync(product).Result;
 
+            if (!result.isSuccessful)
+                return BadRequest(result);
 
-            _productRepository.CreateAsync(new Product
-            {
-                Name = "Coca-Cola",
-                Description = "Refrigerante",
-                Price = 10,
-                ProductId = 2
-            });
-
-            //Implementation on request for layer Domain send handler, command parameter
-            //handler.sendHandler(command,);
-
-
-            return Ok(true);
+            return Ok(result);
         }
     }
 }
