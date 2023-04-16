@@ -1,6 +1,8 @@
 ﻿using CQRSWithoutMediator.Domain.Handlers.Interfaces;
 using CQRSWithoutMediator.Domain.Handlers;
 using System.Collections;
+using CQRSWithoutMediator.Infra.Interfaces;
+using CQRSWithoutMediator.Infra.Repositorys;
 
 namespace CQRSWithoutMediator
 {
@@ -29,6 +31,7 @@ namespace CQRSWithoutMediator
         /// <param name="services"></param>
         public static void ConfigureRepositorys(IServiceCollection services)
         {
+            services.AddSingleton<IProductRepository, ProductRepository>();
         }
     }
 }
