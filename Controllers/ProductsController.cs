@@ -16,6 +16,8 @@ namespace CQRSWithoutMediator.Controllers
             )
         {
             //Implementation on request for layer Domain send handler, command parameter
+            handler.sendHandler(command);
+
 
             return Ok(true);
         }
