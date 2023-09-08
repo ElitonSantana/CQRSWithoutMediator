@@ -8,12 +8,13 @@ namespace CQRSWithoutMediator.Controllers
     [Route("api/[Controller]")]
     public class ProductsController : ControllerBase
     {
-
+        private ILogger<ProductsController> _logger;
         private readonly IProductService _productService;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IProductService productService, ILogger<ProductsController> logger)
         {
             _productService = productService;
+            _logger = logger;
         }
 
         [HttpPost]
